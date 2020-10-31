@@ -1,0 +1,5 @@
+---
+- name: "Ensure certificate and key exists when ssl is enabled"
+  fail:
+    msg: "If SSL is enabled, you must specify certificate and key location"
+  when: ssl.enabled and ((ssl.certificate | length == 0) or (ssl.key | length == 0))

@@ -1,0 +1,54 @@
+# For more information on configuration, see:
+#   * Official English Documentation: http://nginx.org/en/docs/
+#   * Official Russian Documentation: http://nginx.org/ru/docs/
+
+user {{ user }};
+worker_processes auto;
+error_log {{ error_log }};
+pid {{ pid }};
+
+# Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.
+include /usr/share/nginx/modules/*.conf;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    upstream {{ upstream.name }} {
+    server "{{ upstream.server }}:{{ upstream.port }}";
+    }
+
+    access_log            {{ access_log }};
+    error_log            {{ error_log }};
+
+    server {
+        listen 80;
+        listen [::]:80;
+	    return 301 https://$host$request_uri;
+        location / {
+            # Always redirect to https
+            proxy_pass https://{{ upstream.name }}/;
+            proxy_set_header Host $host;
+            proxy_http_version 1.1;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+    server {
+        listen 443 default_server;
+        listen            [::]:443;
+
+        ssl on;
+        ssl_certificate {{ ssl.certificate }};
+        ssl_certificate_key {{ ssl.key }};
+
+        location / {
+            proxy_pass https://{{ upstream.name }}/;
+            proxy_set_header Host $host;
+            proxy_http_version 1.1;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+}
