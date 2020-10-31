@@ -25,7 +25,7 @@ http {
     server {
         listen 80;
         listen [::]:80;
-	    return 301 https://$host$request_uri;
+        return 301 https://$host$request_uri;
         location / {
             # Always redirect to https
             proxy_pass https://{{ upstream.name }}/;
@@ -42,7 +42,7 @@ http {
         ssl on;
         ssl_certificate {{ ssl.certificate }};
         ssl_certificate_key {{ ssl.key }};
-        {% if ssl.key_password | length > 0 %}ssl_password_file /var/lib/nginx/{{ ssl.key | basename }}.txt;{% endif %}}
+        {% if ssl.key_password | length > 0 %}ssl_password_file /var/lib/nginx/{{ ssl.key | basename }}.txt;{% endif %}
 
         location / {
             proxy_pass https://{{ upstream.name }}/;
