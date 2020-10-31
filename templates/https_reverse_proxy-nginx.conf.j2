@@ -42,6 +42,7 @@ http {
         ssl on;
         ssl_certificate {{ ssl.certificate }};
         ssl_certificate_key {{ ssl.key }};
+        {% if ssl.key_password | length > 0 %}ssl_password_file /var/lib/nginx/{{ ssl.key | basename }}.txt;{% endif %}}
 
         location / {
             proxy_pass https://{{ upstream.name }}/;

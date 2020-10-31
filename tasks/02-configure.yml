@@ -1,7 +1,7 @@
 ---
 - name: "Configure Nginx as Reverse proxy to HTTPS"
   template:
-    src: "https_reverse_proxy-nginx.conf"
+    src: "https_reverse_proxy-nginx.conf.j2"
     dest: "/etc/nginx/nginx.conf"
   become: true
   when: "configuration == 'HTTPS-reverse-proxy'"

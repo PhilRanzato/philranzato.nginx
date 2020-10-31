@@ -11,6 +11,7 @@ ssl:
   enabled: false
   certificate: /opt/private/ssl/cert.crt
   key: /opt/private/ssl/cert.key
+  key_password: ""
 
 access_log: /var/log/nginx/nginx.access.log
 error_log: /var/log/nginx/nginx.error.log

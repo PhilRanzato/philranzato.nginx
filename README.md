@@ -32,6 +32,9 @@ ssl:
   certificate: /opt/private/ssl/cert.crt
   ## The certificate key to expose on the Nginx
   key: /opt/private/ssl/cert.key
+  ## The certificate key password (LEAVE IT BLANK IF THERE IS NO PASSWORD PROTECTION)
+  ## Password will be store in /var/lib/nginx/<cert>.key.txt, where <cert> is the key name you provide above
+  key_password: ""
 
 # Nginx configurations
 access_log: /var/log/nginx/nginx.access.log
@@ -43,16 +46,20 @@ pid: /run/nginx.pid
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+---
+- name: "Install and configure Nginx"
+  hosts: target
+  roles:
+  - { role: philranzato.nginx }
+  vars_files:
+  - vars/nginx.yml
+```
 
 License
 -------
@@ -62,4 +69,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Check me on [LinkedIn](www.linkedin.com/in/phil-ranzato-47b8bb194)
