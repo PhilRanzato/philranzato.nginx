@@ -1,0 +1,24 @@
+---
+- name: "Create a password file for the key of the certificate"
+  copy:
+    content: "{{ ssl.key_password }}"
+    dest: "/var/lib/nginx/{{ ssl.key | basename }}.txt"
+    owner: "{{ user }}"
+  become: true
+  when: ssl.enabled and ssl.key_password | length > 0
+
+# setsebool httpd_can_network_connect on -P
+- name: "Set httpd_can_network_connect flag on and keep it persistent across reboots"
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
+  become: true
+
+- name: "Configure Nginx as Reverse proxy to HTTPS"
+  template:
+    src: "https_reverse_proxy-nginx.conf.j2"
+    dest: "/etc/nginx/nginx.conf"
+  become: true
+  when: "configuration == 'HTTPS-reverse-proxy'"
+  notify: "Restart Nginx"

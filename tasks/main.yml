@@ -1,0 +1,9 @@
+---
+- name: "Preflight Checks"
+  include_tasks: "00-preflight-checks.yml"
+  
+- name: "Install Nginx"
+  include_tasks: "01-install.yml"
+
+- name: "Configure Nginx"
+  include_tasks: "02-configure.yml"

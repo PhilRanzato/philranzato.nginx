@@ -1,0 +1,19 @@
+---
+# configuration: "HTTPS-reverse-proxy | "
+configuration: "HTTPS-reverse-proxy"
+
+upstream:
+  name: "my-server"
+  server: "localhost"
+  port: "5678"
+
+ssl:
+  enabled: false
+  certificate: /opt/private/ssl/cert.crt
+  key: /opt/private/ssl/cert.key
+  key_password: ""
+
+access_log: /var/log/nginx/nginx.access.log
+error_log: /var/log/nginx/nginx.error.log
+user: nginx
+pid: /run/nginx.pid
